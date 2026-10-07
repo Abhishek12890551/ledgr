@@ -12,7 +12,7 @@ composeBom = "2026.02.01"
 # Tech stack versions
 navCompose = "2.7.5"
 hilt = "2.48"
-room = "2.6.0"
+room = "2.6.1"
 datastore = "1.0.0"
 kotlinxSerialization = "1.6.0"
 kotlinxDatetime = "0.4.1"

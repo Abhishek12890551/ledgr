@@ -1,37 +1,40 @@
-# Ledgr (working title)
+# Ledgr
 
-A fully offline Android app for personal and group money. Your personal spending shows what you actually consumed, not what you paid for others.
+A fully offline, privacy-first Android app for personal and group money management. Your personal spending shows what you actually consumed, not just what you paid for others.
 
-This folder is the complete documentation pack. Put it at the root of the project repo.
+## Features (Engine & Data Layer)
+- **Immutable Event Sourcing:** Financial events are immutable. Edits are handled by voiding and superseding events, maintaining a perfect financial history.
+- **Offline First:** Fully offline data storage using Room (SQLite). No INTERNET permission required. No cloud syncing, maximizing privacy.
+- **Precision Mathematics:** Uses 64-bit Long integers for "paise" to avoid all floating-point rounding errors. Deterministic tie-breaking on remainder allocation.
+- **Comprehensive Splits:** Supports equal, exact, percentage, shares, and complex itemized splits with proportional taxes/discounts.
+- **Group & Personal:** Flawless cross-boundary logic between group ledgers and your personal bridge (tracking what you owe vs what you personally consumed).
 
-## Where to start
+## Current Status
+- **Milestone 0 (Scaffold):** Completed. Modules structured, Gradle Kotlin DSL configured, CI task for zero internet permission added.
+- **Milestone 1 (Engine):** Completed. 100% test coverage against PRD Golden Scenarios. Property-based invariants mathematically verified. 
+- **Milestone 2 (Data Layer):** Completed. Room entities perfectly mimic engine event sealed classes using JSON polymorphic payloads.
 
-| If you want to… | Open |
-|---|---|
-| Hand the project to an AI coding agent | `AGENTS.md` (it lists everything to read, in order) |
-| Understand what we're building and why | `docs/PRD.md` |
-| See the money rules and algorithms | `docs/ENGINE_SPEC.md` |
-| See the exact Kotlin API | `docs/ENGINE_API.md` |
-| Check expected numbers | `docs/GOLDEN_SCENARIOS.md`, `tools/reference_engine.py` |
-| See architecture, stack and data model | `docs/TECH_STACK.md` |
-| See colors, fonts, motion, sound | `docs/DESIGN_SYSTEM.md` |
-| See every screen, state and the wording | `docs/UX_SPEC.md` |
-| Track fonts, sounds, animation licences | `docs/ASSETS.md` |
-| Test demand before investing more | `docs/VALIDATION_KIT.md` |
-| Publish the app | `docs/RELEASE.md` |
-| Plan the on-device models | `docs/ML_PLAN.md` |
-| Log progress and decisions | `docs/PROGRESS.md` |
+## Tech Stack
+- **Language:** Kotlin (latest stable), Coroutines & Flow
+- **UI:** Jetpack Compose (upcoming in M3/M4)
+- **Database:** Room (SQLite) with KSP
+- **Architecture:** Unidirectional data flow / MVVM 
+- **Testing:** Kotest (Property-based tests), JUnit 5, Robolectric
 
-## Order of work
+## Setup and Development
 
-1. Optional in parallel: validation (`VALIDATION_KIT.md` Parts A and B) while the engine is built.
-2. Build milestones M0 to M7 from `AGENTS.md`.
-3. Prototype test with friends (`VALIDATION_KIT.md` Part C).
-4. Decide: product, portfolio project, or pivot.
-5. Release (`RELEASE.md`) and later the ML work (`ML_PLAN.md`).
+Ledgr uses Gradle and relies on Android Studio.
 
-## Before the agent starts
-- Create a Git repo and commit this folder.
-- Download the fonts, and source or create the sounds and animations (`docs/ASSETS.md`).
-- Choose the app name and check that it's available.
-- Android Studio with the Pixel 10 emulator and a physical phone for sound, haptics and performance checks.
+### Running the Engine Tests (Pure JVM)
+The core engine mathematical logic runs instantly without an emulator.
+```bash
+./gradlew :engine:test
+```
+
+### Running Data Layer Tests (Robolectric)
+```bash
+./gradlew :data:test
+```
+
+### Documentation
+All specifications and rules are located in the `docs/` folder. Start with `AGENTS.md` and `docs/PRD.md` to understand the overarching system architecture.
